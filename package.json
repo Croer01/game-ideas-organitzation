@@ -1,15 +1,15 @@
 {
-  "name": "Angular-Electron-Seed",
+  "name": "game-ideas-organization",
   "version": "1.0.0",
-  "description": "Seed to create cross-platform apps",
+  "description": "simple tool to organize ideas for create my games",
   "main": "main.js",
   "scripts": {
     "postinstall": "npm link gulp && typings install"
   },
   "keywords": [
-    "Seed",
-    "Angular",
-    "Electron",
+    "Game",
+    "Ideas",
+    "Organization",
     "Cross-platform"
   ],
   "author": "Adria Rodriguez",
