@@ -1,4 +1,12 @@
 <div>
-	<h1>Seed page</h1>
-	<p>awesome content</p>
+	<input type="text" [(ngModel)]="newIdea.title">
+
+	<textarea [(ngModel)]="newIdea.description"></textarea>
+
+	<button (click)="addIdea()">Add idea</button>
+
+	<div *ngFor="let idea of ideas">
+		<h1>{{idea.title}}</h1>
+		<pre>{{idea.description}}</pre>
+	</div>
 </div>
