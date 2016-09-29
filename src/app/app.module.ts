@@ -6,6 +6,7 @@ import {routing} from './app.routing';
 import {AppRootComponent} from "./app.component";
 import {MainContentComponent} from "./main-content/main-content.component";
 import {IdeaDatabase} from "./database.service";
+import {AutoCompleteComponent} from "./autocomplete/autocomplete.component";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {IdeaDatabase} from "./database.service";
     ],
     declarations: [
         AppRootComponent,
-        MainContentComponent
+        MainContentComponent,
+        AutoCompleteComponent
     ],
     bootstrap: [AppRootComponent]
 })

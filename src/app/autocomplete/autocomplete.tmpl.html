@@ -1,0 +1,6 @@
+<input type="text" (focus)="openOptions()" (blur)="closeOptions()">
+<ul *ngIf="isFocus">
+	<li *ngFor="let option of options">
+		{{getOptionContent(option)}}
+	</li>
+</ul>
