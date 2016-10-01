@@ -1,6 +1,17 @@
-<input type="text" (focus)="openOptions()" (blur)="closeOptions()">
-<ul *ngIf="isFocus">
-	<li *ngFor="let option of options">
-		{{getOptionContent(option)}}
-	</li>
-</ul>
+<div class="autocomplet-wrapper">
+	<input class="autocomplet-input"
+		   type="text"
+		   (focus)="openOptions()"
+		   (click)="openOptions()"
+		   (keydown)="openOptions()"
+		   (blur)="closeOptions()"
+		   [(ngModel)]="autocompleteInput">
+	<ul class="autocomplete-list"
+		*ngIf="isFocus">
+		<li class="autocomplete-list-option"
+			*ngFor="let option of options"
+			(mousedown)="selectOption($event, option)">
+			{{getOptionContent(option)}}
+		</li>
+	</ul>
+</div>
