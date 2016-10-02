@@ -1,28 +1,38 @@
 $autocomplete-hover-color: rgba(0, 0, 0, 0.18);
-
+$autocomplete-zindex: 10;
 .autocomplet-wrapper {
     position: relative;
     .autocomplet-input {
         width: 100%;
-        z-index: 1;
+        z-index: $autocomplete-zindex;
     }
     .autocomplete-list {
         position: absolute;
         width: 100%;
         margin: 0;
         padding: 0;
+        z-index: $autocomplete-zindex - 1;
         overflow-y: auto;
         overflow-x: hidden;
+        background: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50),
         0 5px 10px rgba(0, 0, 0, 0.2);
 
-        .autocomplete-list-option {
+        %list-option{
             list-style: none;
             padding: 4px 16px;
+        }
+
+        .autocomplete-list-option {
+            @extend %list-option;
 
             &:hover{
                 background: $autocomplete-hover-color;
             }
+        }
+
+        .autocomplete-list-noresult{
+            @extend %list-option;
         }
     }
 }

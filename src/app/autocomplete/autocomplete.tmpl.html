@@ -1,17 +1,21 @@
 <div class="autocomplet-wrapper">
 	<input class="autocomplet-input"
 		   type="text"
-		   (focus)="openOptions()"
-		   (click)="openOptions()"
-		   (keydown)="openOptions()"
+		   [(ngModel)]="selectedOption"
+		   (focus)="searchOptions()"
+		   (click)="searchOptions()"
 		   (blur)="closeOptions()"
-		   [(ngModel)]="autocompleteInput">
+		   (ngModelChange)="searchOptions()">
 	<ul class="autocomplete-list"
 		*ngIf="isFocus">
 		<li class="autocomplete-list-option"
 			*ngFor="let option of options"
 			(mousedown)="selectOption($event, option)">
 			{{getOptionContent(option)}}
+		</li>
+		<li class="autocomplete-list-noresult"
+			*ngIf="options.length === 0">
+			no results
 		</li>
 	</ul>
 </div>
