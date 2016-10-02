@@ -3,11 +3,22 @@
 
 	<textarea [(ngModel)]="newIdea.description"></textarea>
 
+	<ul>
+		<li *ngFor="let relatedIdea of newIdea.relatedIdeas">{{relatedIdea.title}}</li>
+	</ul>
+
+	<div>
+		<autocomplete [showProperty]="'title'" (onSelected)="ideaToLink = $event"></autocomplete>
+		<button (click)="linkIdea()">link</button>
+	</div>
+
 	<button (click)="addIdea()">Add idea</button>
 
 	<div *ngFor="let idea of ideas">
 		<h1>{{idea.title}}</h1>
-		<pre>{{idea.description}}</pre>
+		<p>{{idea.description}}</p>
+		<ul>
+			<li *ngFor="let relatedIdea of idea.relatedIdeas">{{relatedIdea.title}}</li>
+		</ul>
 	</div>
-	<autocomplete [showProperty]="'title'"></autocomplete>
 </div>
