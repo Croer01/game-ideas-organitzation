@@ -8,7 +8,7 @@
 	</ul>
 
 	<div>
-		<autocomplete [showProperty]="'title'" (onSelected)="ideaToLink = $event"></autocomplete>
+		<autocomplete [showProperty]="'title'" (onSelected)="ideaToLink = $event" (onChange)="ideaToLink = null"></autocomplete>
 		<button (click)="linkIdea()">link</button>
 	</div>
 
