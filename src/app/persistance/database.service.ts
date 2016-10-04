@@ -1,14 +1,15 @@
 import {Injectable} from "@angular/core";
 import * as Datastore from "nedb"
+import {Idea} from "./Idea";
 
 @Injectable()
 export class IdeaDatabase {
     private db: any;
-    public loaded: Promise;
+    public loaded: Promise<any>;
 
     constructor() {
         this.db = new Datastore({filename: __dirname + "/data.db"});
-        this.loaded = new Promise((resolve,reject)=>{
+        this.loaded = new Promise((resolve, reject)=> {
             this.db.loadDatabase((err) => {
                 if (err) {
                     reject(err);
@@ -19,7 +20,7 @@ export class IdeaDatabase {
         });
     }
 
-    public findAll(): Promise<Array> {
+    public findAll(): Promise<Idea[]> {
         return new Promise((resolve, reject) => {
             this.db.find({}, (err, ideas) => {
                 if (err) {
@@ -31,7 +32,7 @@ export class IdeaDatabase {
         });
     }
 
-    public insert(idea): Promise<any> {
+    public insert(idea): Promise<Idea> {
         return new Promise((resolve, reject) => {
             this.db.insert(idea, (err, newIdea) => {
                 if (err) {
@@ -43,4 +44,22 @@ export class IdeaDatabase {
         });
     }
 
+    public findByTitle(query: string): Promise<Idea[]> {
+        var promise: Promise<Idea[]>;
+        if (query) {
+            promise = new Promise<Idea[]>((resolve, reject) => {
+                this.db.find({title: new RegExp(query)}, (err, ideas) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(ideas);
+                    }
+                });
+            });
+        } else {
+            promise = this.findAll();
+        }
+
+        return promise;
+    }
 }

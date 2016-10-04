@@ -5,7 +5,7 @@ import {routing} from './app.routing';
 
 import {AppRootComponent} from "./app.component";
 import {MainContentComponent} from "./main-content/main-content.component";
-import {IdeaDatabase} from "./database.service";
+import {IdeaDatabase} from "./persistance/database.service";
 import {AutoCompleteComponent} from "./autocomplete/autocomplete.component";
 
 
