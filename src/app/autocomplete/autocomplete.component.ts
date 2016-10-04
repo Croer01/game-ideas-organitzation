@@ -3,6 +3,7 @@
  */
 import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {IdeaDatabase} from "../persistance/database.service";
+import {Idea} from "../persistance/Idea";
 const slash = require('slash');
 
 @Component({
@@ -12,22 +13,25 @@ const slash = require('slash');
     styleUrls: ['autocomplete.css']
 })
 export class AutoCompleteComponent implements OnInit {
-    private newIdea: any;
-    private options: Array<any>;
+    private options: Idea[];
     private isFocus: Boolean;
-    private selectedOption: string;
+    private selectedIndex: number;
+    private inputModel: string;
+
     @Input()
     private showProperty: string;
     @Output()
-    private onSelected = new EventEmitter(false);
+    private onSelected = new EventEmitter<Idea>(false);
+    @Output()
+    private onChange = new EventEmitter<any>(false);
 
     constructor(private db: IdeaDatabase) {
     }
 
     ngOnInit(): void {
-        this.newIdea = {};
         this.db.loaded.then(() => this.db.findAll().then((options)=>this.options = options));
         this.isFocus = false;
+        this.selectedIndex = 0;
     }
 
     public closeOptions(): void {
@@ -41,22 +45,49 @@ export class AutoCompleteComponent implements OnInit {
         }
     }
 
-    public getOptionContent(option: any): string {
+    public getOptionContent(option: Idea): string {
         return this.showProperty ? option[this.showProperty] : option;
     }
 
-    public selectOption(event: MouseEvent, option: any): void {
+    public selectOption(event: MouseEvent, index: number): void {
         if (event.button === 0) {
-            this.selectedOption = this.getOptionContent(option);
+            this.selectedIndex = index;
+            var optionSelected: Idea = this.options[this.selectedIndex];
+            this.inputModel = this.getOptionContent(optionSelected);
             this.closeOptions();
-            this.onSelected.emit(option);
+            this.onSelected.emit(optionSelected);
         }
 
         event.preventDefault();
     }
 
     public searchOptions(): void {
-        this.db.findByTitle(this.selectedOption).then((options)=>this.options = options);
+        this.db.findByTitle(this.inputModel).then((options)=>this.options = options);
+        this.selectedIndex = -1;
         this.openOptions();
+        this.onChange.emit();
+    }
+
+    public moveCursor(event: KeyboardEvent): void {
+        // PRESS UP ARROW
+        if (event.keyCode == 38) {
+            event.preventDefault();
+            this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+        }
+
+        // PRESS DOWN ARROW
+        if (event.keyCode == 40) {
+            event.preventDefault();
+            this.selectedIndex = Math.min(this.options.length - 1, this.selectedIndex + 1);
+        }
+
+        // PRESS ENTER
+        if (event.keyCode == 13) {
+            var optionSelected: Idea = this.options[this.selectedIndex];
+            event.preventDefault();
+            this.inputModel = this.getOptionContent(optionSelected);
+            this.closeOptions();
+            this.onSelected.emit(optionSelected);
+        }
     }
 }
