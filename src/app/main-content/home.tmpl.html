@@ -1,0 +1,10 @@
+<div>
+	<div *ngFor="let idea of ideas">
+		<h1>{{idea.title}}</h1>
+		<p>{{idea.description}}</p>
+		<ul>
+			<li *ngFor="let relatedIdea of idea.relatedIdeas">{{relatedIdea.title}}</li>
+		</ul>
+	</div>
+	<button routerLink="/new-idea" >Add idea</button>
+</div>

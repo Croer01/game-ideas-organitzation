@@ -1,12 +1,14 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from "@angular/forms";
-import {routing} from './app.routing';
+import {routing} from './routes/app.routing';
 
 import {AppRootComponent} from "./app.component";
-import {MainContentComponent} from "./main-content/main-content.component";
+import {HomeComponent} from "./main-content/home.component";
 import {IdeaDatabase} from "./persistance/database.service";
 import {AutoCompleteComponent} from "./autocomplete/autocomplete.component";
+import {NewIdeaComponent} from "./new-idea/new-idea.component";
+import {IdeasResolve} from "./routes/IdeasResolve";
 
 
 @NgModule({
@@ -16,11 +18,13 @@ import {AutoCompleteComponent} from "./autocomplete/autocomplete.component";
         routing
     ],
     providers:[
-        IdeaDatabase
+        IdeaDatabase,
+        IdeasResolve
     ],
     declarations: [
         AppRootComponent,
-        MainContentComponent,
+        HomeComponent,
+        NewIdeaComponent,
         AutoCompleteComponent
     ],
     bootstrap: [AppRootComponent]

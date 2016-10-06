@@ -8,10 +8,10 @@ const slash = require('slash');
 
 @Component({
     moduleId: slash(module.id),
-    selector: 'main-content',
-    templateUrl: 'main-content.tmpl.html'
+    selector: 'new-idea',
+    templateUrl: 'new-idea.tmpl.html'
 })
-export class MainContentComponent implements OnInit {
+export class NewIdeaComponent implements OnInit {
     private newIdea: Idea;
     private ideas: Array<Idea>;
     private ideaToLink;
