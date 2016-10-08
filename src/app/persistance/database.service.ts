@@ -62,4 +62,16 @@ export class IdeaDatabase {
 
         return promise;
     }
+
+    public delete(idea: Idea): Promise<Boolean> {
+        return new Promise<Boolean>((resolve, reject)=> {
+            this.db.remove({_id: idea._id}, {}, (err, numRemoved)=> {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(numRemoved > 0);
+                }
+            });
+        });
+    }
 }

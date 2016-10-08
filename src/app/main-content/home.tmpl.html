@@ -1,10 +1,12 @@
 <div>
+	<button routerLink="/new-idea">Add idea</button>
+	<div *ngIf="ideas.length == 0">There aren't any idea yet :(</div>
+	<div *ngIf="ideas.length == 0">To create one use <b>Add idea</b> button.</div>
 	<div *ngFor="let idea of ideas">
 		<h1>{{idea.title}}</h1>
 		<p>{{idea.description}}</p>
-		<ul>
-			<li *ngFor="let relatedIdea of idea.relatedIdeas">{{relatedIdea.title}}</li>
-		</ul>
+		<p *ngIf="idea.relatedIdeas.length"> {{idea.relatedIdeas.length}} related ideas</p>
+		<button (click)="deleteIdea($index,idea)">Delete</button>
 	</div>
-	<button routerLink="/new-idea" >Add idea</button>
+	<div></div>
 </div>

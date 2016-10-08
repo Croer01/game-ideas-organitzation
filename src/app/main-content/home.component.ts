@@ -4,6 +4,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Idea} from "../persistance/Idea";
 import {ActivatedRoute} from "@angular/router";
+import {IdeaDatabase} from "../persistance/database.service";
 const slash = require('slash');
 
 @Component({
@@ -14,13 +15,21 @@ const slash = require('slash');
 export class HomeComponent implements OnInit {
     private ideas: Array<Idea>;
 
-    constructor(
-        private route: ActivatedRoute,
-    ){}
+    constructor(private route: ActivatedRoute,
+                private db: IdeaDatabase) {
+    }
 
     public ngOnInit(): void {
-        this.route.data.forEach((data:{ideas:Idea[]})=>{
+        this.route.data.forEach((data: {ideas: Idea[]})=> {
             this.ideas = data.ideas
+        });
+    }
+
+    public deleteIdea(index: number, idea: Idea): void {
+        this.db.delete(idea).then((removed) => {
+            if (removed) {
+                this.ideas.splice(index);
+            }
         });
     }
 }
