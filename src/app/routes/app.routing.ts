@@ -7,7 +7,10 @@ import {IdeasResolve} from "./IdeasResolve";
 const appRoutes:Routes = [
     <Route>{
         path: 'new-idea',
-        component: NewIdeaComponent
+        component: NewIdeaComponent,
+        resolve:{
+            'ideas': IdeasResolve
+        }
     },
     <Route>{
         path: '',

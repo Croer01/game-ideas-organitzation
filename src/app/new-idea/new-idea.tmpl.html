@@ -1,18 +1,23 @@
 <div>
-	<input type="text" [(ngModel)]="newIdea.title">
+	<h1>New Idea</h1>
+	<form #newIdeaForm="ngForm" (ngSubmit)="addIdea()">
+		<label for="title">Title</label>
+		<input id="title" name="title" type="text" [(ngModel)]="newIdea.title" required>
 
-	<textarea [(ngModel)]="newIdea.description"></textarea>
+		<label for="description">Description</label>
+		<textarea id="description" name="description" [(ngModel)]="newIdea.description"></textarea>
 
-	<ul>
-		<li *ngFor="let relatedIdea of newIdea.relatedIdeas">{{relatedIdea.title}}</li>
-	</ul>
+		<div>
+			<autocomplete [showProperty]="'title'" (onSelected)="ideaToLink = $event"
+						  (onChange)="ideaToLink = null"></autocomplete>
+			<button type="button" (click)="linkIdea()">link</button>
+		</div>
+		<ul>
+			<li *ngFor="let relatedIdea of newIdea.relatedIdeas">{{relatedIdea.title}}</li>
+		</ul>
 
-	<div>
-		<autocomplete [showProperty]="'title'" (onSelected)="ideaToLink = $event" (onChange)="ideaToLink = null"></autocomplete>
-		<button (click)="linkIdea()">link</button>
-	</div>
+		<button type="submit" [disabled]="!newIdeaForm.form.valid">Add idea</button>
+		<button type="button" routerLink="/">Cancel</button>
 
-	<button (click)="addIdea()">Add idea</button>
-	<button routerLink="/" >Cancel</button>
-
+	</form>
 </div>
