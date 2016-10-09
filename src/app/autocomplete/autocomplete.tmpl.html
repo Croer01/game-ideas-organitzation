@@ -1,12 +1,18 @@
 <div class="autocomplet-wrapper">
-	<input class="autocomplet-input"
-		   type="text"
-		   [(ngModel)]="inputModel"
-		   (focus)="searchOptions()"
-		   (click)="searchOptions()"
-		   (blur)="closeOptions()"
-		   (keydown)="moveCursor($event)"
-		   (ngModelChange)="searchOptions()">
+	<div [ngClass]="{'input-group': inputModel}">
+		<input class="autocomplet-input form-control"
+			   type="text"
+			   [(ngModel)]="inputModel"
+			   (focus)="searchOptions()"
+			   (click)="searchOptions()"
+			   (blur)="closeOptions()"
+			   (keydown)="moveCursor($event)"
+			   (ngModelChange)="searchOptions()"
+		#autocompleteInput>
+		<span *ngIf="inputModel" class="input-group-addon" (click)="inputModel = '';autocompleteInput.focus();">
+			<i class="fa fa-close" aria-hidden="true"></i>
+		</span>
+	</div>
 	<ul class="autocomplete-list"
 		*ngIf="isFocus">
 		<li *ngFor="let option of options; let i = index;"
