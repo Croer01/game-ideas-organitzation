@@ -12,5 +12,8 @@ window.addEventListener('keydown',(event:KeyboardEvent)=>{
     }
 });
 
-//angular application
 require('./app/app.bootstrap');
+global['jQuery'] = require('jquery');
+//angular application
+require('bootstrap');
+
