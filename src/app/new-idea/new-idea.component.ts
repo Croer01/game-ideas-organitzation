@@ -10,7 +10,8 @@ const slash = require('slash');
 @Component({
     moduleId: slash(module.id),
     selector: 'new-idea',
-    templateUrl: 'new-idea.tmpl.html'
+    templateUrl: 'new-idea.tmpl.html',
+    styleUrls: ['new-idea.css']
 })
 export class NewIdeaComponent implements OnInit {
     private newIdea: Idea;
@@ -30,7 +31,7 @@ export class NewIdeaComponent implements OnInit {
     }
 
     public addIdea(): void {
-        this.db.insert(this.newIdea).then(()=>{
+        this.db.insert(this.newIdea).then(()=> {
             this.router.navigate(['/']);
         });
     }
@@ -38,6 +39,10 @@ export class NewIdeaComponent implements OnInit {
     public linkIdea(): void {
         if (this.ideaToLink && this.newIdea.canLink(this.ideaToLink))
             this.newIdea.linkIdea(this.ideaToLink);
+    }
+
+    public deleteIdea(index): void {
+        this.newIdea.relatedIdeas.splice(index, 1);
     }
 
 }
