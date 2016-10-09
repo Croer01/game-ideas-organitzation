@@ -4,7 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {routing} from './routes/app.routing';
 
 import {AppRootComponent} from "./app.component";
-import {HomeComponent} from "./main-content/home.component";
+import {HomeComponent} from "./home/home.component";
 import {IdeaDatabase} from "./persistance/database.service";
 import {AutoCompleteComponent} from "./autocomplete/autocomplete.component";
 import {NewIdeaComponent} from "./new-idea/new-idea.component";

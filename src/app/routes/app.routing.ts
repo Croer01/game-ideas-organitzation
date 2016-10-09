@@ -1,5 +1,5 @@
 import {Route, Routes, RouterModule} from '@angular/router';
-import {HomeComponent} from "../main-content/home.component";
+import {HomeComponent} from "../home/home.component";
 import {NewIdeaComponent} from "../new-idea/new-idea.component";
 import {IdeasResolve} from "./IdeasResolve";
 

@@ -10,7 +10,9 @@ const slash = require('slash');
 @Component({
     moduleId: slash(module.id),
     selector: 'home',
-    templateUrl: 'home.tmpl.html'
+    templateUrl: 'home.tmpl.html',
+    styleUrls: ['home.css']
+
 })
 export class HomeComponent implements OnInit {
     private ideas: Array<Idea>;
@@ -28,7 +30,7 @@ export class HomeComponent implements OnInit {
     public deleteIdea(index: number, idea: Idea): void {
         this.db.delete(idea).then((removed) => {
             if (removed) {
-                this.ideas.splice(index);
+                this.ideas.splice(index, 1);
             }
         });
     }

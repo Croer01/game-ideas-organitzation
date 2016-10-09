@@ -1,0 +1,27 @@
+<div class="container-fluid">
+	<div class="row home-header">
+		<div class="col-sm-12 col-md-12">
+			<button class="btn btn-primary pull-right" routerLink="/new-idea">New idea</button>
+		</div>
+	</div>
+	<div class="jumbotron" *ngIf="ideas.length == 0">
+		<h1>There aren't ideas! :(</h1>
+		<p>To create one use <b>Add idea</b> button.</p>
+	</div>
+
+	<div class="row" *ngFor="let idea of ideas; let i = index">
+		<div class="container home-idea-container">
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<h1 class="pull-left">{{idea.title}}</h1>
+					<button class="btn btn-link pull-right" (click)="deleteIdea(i,idea)">
+						<i class="fa fa-trash" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+			<p>{{idea.description}}</p>
+			<p class="pull-right related-ideas" *ngIf="idea.relatedIdeas.length"> {{idea.relatedIdeas.length}} related ideas</p>
+		</div>
+	</div>
+	<div></div>
+</div>
