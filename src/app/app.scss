@@ -1,3 +1,28 @@
-*, *:before, *:after{
+*, *:before, *:after {
     box-sizing: border-box;
+}
+
+$btn-icon-warning-color: #f0ad4e;
+$btn-icon-warning-color-hover: darken($btn-icon-warning-color, 15%);
+
+// Make a button look and behave like a link
+.btn-icon-warning {
+    color: $btn-icon-warning-color;
+    font-weight: normal;
+    border-radius: 0;
+    background-color: transparent;
+
+    &:active{
+        box-shadow: none !important;
+    }
+
+    &:hover,
+    &:focus {
+        color: $btn-icon-warning-color-hover !important;
+        background-color: transparent;
+        outline: none !important;
+    }
+    &[disabled] {
+        color: #777 !important;
+    }
 }
