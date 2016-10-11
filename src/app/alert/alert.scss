@@ -1,0 +1,13 @@
+.alert {
+    position: fixed;
+    margin: 8px;
+    bottom: -50%;
+    left: 12.5%;
+    width: 75%;
+    z-index: 100;
+    transition: all 300ms ease-in-out;
+
+    &.alert-show{
+        bottom:0;
+    }
+}
