@@ -5,6 +5,7 @@ import {Component, OnInit} from '@angular/core';
 import {IdeaDatabase} from "../persistance/database.service";
 import {Idea} from "../persistance/Idea";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AlertService} from "../alert/alert.service";
 const slash = require('slash');
 
 @Component({
@@ -20,7 +21,8 @@ export class NewIdeaComponent implements OnInit {
 
     constructor(private db: IdeaDatabase,
                 private router: Router,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private alertService: AlertService) {
     }
 
     public ngOnInit(): void {
@@ -32,6 +34,7 @@ export class NewIdeaComponent implements OnInit {
 
     public addIdea(): void {
         this.db.insert(this.newIdea).then(()=> {
+            this.alertService.showSuccess("idea created successful");
             this.router.navigate(['/']);
         });
     }

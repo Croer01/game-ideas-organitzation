@@ -5,6 +5,7 @@ import {Component, OnInit} from "@angular/core";
 import {Idea} from "../persistance/Idea";
 import {ActivatedRoute} from "@angular/router";
 import {IdeaDatabase} from "../persistance/database.service";
+import {AlertService} from "../alert/alert.service";
 const slash = require('slash');
 
 @Component({
@@ -18,7 +19,8 @@ export class HomeComponent implements OnInit {
     private ideas: Array<Idea>;
 
     constructor(private route: ActivatedRoute,
-                private db: IdeaDatabase) {
+                private db: IdeaDatabase,
+                private alertService: AlertService) {
     }
 
     public ngOnInit(): void {
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit {
         this.db.delete(idea).then((removed) => {
             if (removed) {
                 this.ideas.splice(index, 1);
+                this.alertService.showWarning(`idea "${idea.title}" removed`)
             }
         });
     }
