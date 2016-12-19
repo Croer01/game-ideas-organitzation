@@ -10,7 +10,7 @@
 		<p>To create one use <b>New idea</b> button.</p>
 	</div>
 
-	<div class="row" *ngFor="let idea of ideas; let i = index">
+	<div class="row idea-container" *ngFor="let idea of ideas; let i = index">
 		<div class="panel panel-default container">
 			<div class="row">
 				<div class="col-sm-12 col-md-12">
@@ -20,8 +20,12 @@
 					</button>
 				</div>
 			</div>
-			<p>{{idea.description}}</p>
-			<p class="pull-right small text-muted" *ngIf="idea.relatedIdeas.length"> {{idea.relatedIdeas.length}} related ideas</p>
+			<p *ngIf="idea.description" class="idea-description">{{idea.description}}</p>
+
+			<button *ngIf="idea.relatedIdeas.length" class="btn btn-default pull-right related-ideas-btn" type="button">
+				{{idea.relatedIdeas.length}} related ideas
+			</button>
+
 		</div>
 	</div>
 	<div></div>

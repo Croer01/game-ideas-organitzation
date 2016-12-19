@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
         this.db.delete(idea).then((removed) => {
             if (removed) {
                 this.ideas.splice(index, 1);
-                this.alertService.showWarning(`idea "${idea.title}" removed`)
+                this.alertService.showWarning(`idea "${idea.title}" removed`);
             }
         });
     }
