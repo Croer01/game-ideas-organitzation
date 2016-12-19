@@ -34,7 +34,7 @@ export class NewIdeaComponent implements OnInit {
 
     public addIdea(): void {
         this.db.insert(this.newIdea).then(()=> {
-            this.alertService.showSuccess("idea created successful");
+            this.alertService.showSuccess(`idea "${this.newIdea.title}" created successful`);
             this.router.navigate(['/']);
         });
     }

@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+html,body{
+    background: #efeae2 !important;
+}
+
 $btn-icon-warning-color: #f0ad4e;
 $btn-icon-warning-color-hover: darken($btn-icon-warning-color, 15%);
 
