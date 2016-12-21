@@ -5,16 +5,20 @@ import {Idea} from "./Idea";
 @Injectable()
 export class IdeaDatabase {
     private db: any;
-    public loaded: Promise<any>;
+    public loaded: Promise<boolean>;
 
     constructor() {
-        this.db = new Datastore({filename: __dirname + "/data.db"});
-        this.loaded = new Promise((resolve, reject)=> {
+        this.loadDataBase(__dirname + '/data.db')
+    }
+
+    public loadDataBase(filename : string) : void{
+        this.db = new Datastore({filename: filename});
+        this.loaded = new Promise((resolve, reject) => {
             this.db.loadDatabase((err) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve();
+                    resolve(true);
                 }
             });
         });
@@ -64,8 +68,8 @@ export class IdeaDatabase {
     }
 
     public delete(idea: Idea): Promise<Boolean> {
-        return new Promise<Boolean>((resolve, reject)=> {
-            this.db.remove({_id: idea._id}, {}, (err, numRemoved)=> {
+        return new Promise<Boolean>((resolve, reject) => {
+            this.db.remove({_id: idea._id}, {}, (err, numRemoved) => {
                 if (err) {
                     reject(err);
                 } else {
