@@ -22,10 +22,11 @@ function createWindow() {
         mainWindow.webContents.reloadIgnoringCache();
     });
 
-
     mainWindow.on('closed', function () {
         mainWindow = null
     });
+
+    mainWindow.setMenu(null);
 }
 
 app.on('ready', createWindow);
