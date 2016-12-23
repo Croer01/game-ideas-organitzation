@@ -1,5 +1,9 @@
+#Project generated folders
 /release
 /typings
 /dist
 /.idea
 node_modules
+
+#JustInMind project file
+*.vp
