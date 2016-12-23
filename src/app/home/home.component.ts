@@ -6,6 +6,7 @@ import {Idea} from "../persistance/Idea";
 import {ActivatedRoute} from "@angular/router";
 import {IdeaDatabase} from "../persistance/database.service";
 import {AlertService} from "../alert/alert.service";
+import * as path from 'path';
 
 const slash = require('slash');
 const {dialog} = require('electron').remote;
@@ -19,6 +20,7 @@ const {dialog} = require('electron').remote;
 })
 export class HomeComponent implements OnInit {
     private ideas: Array<Idea>;
+    private name :string;
 
     constructor(private route: ActivatedRoute,
                 private db: IdeaDatabase,
@@ -49,6 +51,7 @@ export class HomeComponent implements OnInit {
             ]
         }, (filePaths) => {
             if (filePaths && filePaths.length == 1) {
+                this.name = path.basename(filePaths[0],".db");
                 this.db.loadDataBase(filePaths[0]);
                 this.db.loaded.then(() => {
                     this.db.findAll().then((ideas) => {
@@ -58,7 +61,5 @@ export class HomeComponent implements OnInit {
                 });
             }
         });
-
-
     }
 }
