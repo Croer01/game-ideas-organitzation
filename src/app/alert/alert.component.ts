@@ -51,10 +51,10 @@ export class AlertComponent {
             this.ngClass[1] = 'alert-show';
             if (this.timeout)
                 clearTimeout(this.timeout);
-            this.timeout = setTimeout(()=> {
+            this.timeout = Number(setTimeout(()=> {
                 this.ngClass[1] = '';
                 this.timeout = null;
-            }, 5000);
+            }, 5000));
         },200);
     }
 }
