@@ -52,7 +52,7 @@ export class StorageService {
             }
             this.setFilename(filename || this.filename);
 
-            fs.writeFile(this.filename, JSON.stringify(this.storage), function (err) {
+            fs.writeFile(this.filename, JSON.stringify(this.storage), err => {
                 if (err)
                     reject(err);
                 else {

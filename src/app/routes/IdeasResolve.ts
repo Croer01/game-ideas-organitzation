@@ -1,17 +1,15 @@
 import {Injectable} from "@angular/core";
-import {Resolve, ActivatedRouteSnapshot} from '@angular/router';
+import {Resolve, ActivatedRouteSnapshot} from "@angular/router";
 import {Idea} from "../persistance/Idea";
-import {IdeaDatabase} from "../persistance/database.service";
+import {StorageService} from "../../storage/storage.service";
 
 @Injectable()
 export class IdeasResolve implements Resolve<Idea[]> {
-    constructor(private db: IdeaDatabase) {
+    constructor(private storage: StorageService) {
     }
 
     resolve(route: ActivatedRouteSnapshot): Promise<Idea[]> {
-        return this.db.loaded.then(() => {
-            return this.db.findAll();
-        });
+        return this.storage.findAll();
     }
 
 }

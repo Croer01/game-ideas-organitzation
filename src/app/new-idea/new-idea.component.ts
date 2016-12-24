@@ -2,10 +2,10 @@
  * Created by Adria on 21/08/2016.
  */
 import {Component, OnInit} from '@angular/core';
-import {IdeaDatabase} from "../persistance/database.service";
 import {Idea} from "../persistance/Idea";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AlertService} from "../alert/alert.service";
+import {StorageService} from "../../storage/storage.service";
 const slash = require('slash');
 
 @Component({
@@ -19,7 +19,7 @@ export class NewIdeaComponent implements OnInit {
     private ideas: Idea[];
     private ideaToLink;
 
-    constructor(private db: IdeaDatabase,
+    constructor(private storage: StorageService,
                 private router: Router,
                 private route: ActivatedRoute,
                 private alertService: AlertService) {
@@ -33,7 +33,7 @@ export class NewIdeaComponent implements OnInit {
     }
 
     public addIdea(): void {
-        this.db.insert(this.newIdea).then(()=> {
+        this.storage.saveDocument(this.newIdea).then(()=> {
             this.alertService.showSuccess(`idea "${this.newIdea.title}" created successful`);
             this.router.navigate(['/']);
         });
