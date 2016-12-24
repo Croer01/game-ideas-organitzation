@@ -1,14 +1,16 @@
 <div class="container-fluid">
 	<div class="row home-header">
 		<div class="col-sm-12 col-md-12">
-			<h1 class="pull-left" *ngIf="name">{{name}}</h1>
+			<h1 class="pull-left" *ngIf="storage.getName()">{{storage.getName()}}</h1>
+			<button class="btn btn-primary pull-left" type="button" *ngIf="storage.isDirty()" (click)="saveFile()">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+			</button>
 			<button class="btn btn-primary pull-right" routerLink="/new-idea">New idea</button>
 			<button class="btn pull-right" type="button" (click)="loadFile()">
 				<i class="fa fa-file-text-o" aria-hidden="true"></i> open Database
 			</button>
 		</div>
 	</div>
-
 	<div class="jumbotron" *ngIf="ideas.length == 0">
 		<h1>There aren't ideas! :(</h1>
 		<p>To create one use <b>New idea</b> button.</p>
@@ -32,5 +34,4 @@
 
 		</div>
 	</div>
-	<div></div>
 </div>

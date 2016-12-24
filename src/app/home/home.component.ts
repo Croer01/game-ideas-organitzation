@@ -4,9 +4,8 @@
 import {Component, OnInit, ChangeDetectorRef} from "@angular/core";
 import {Idea} from "../persistance/Idea";
 import {ActivatedRoute} from "@angular/router";
-import {IdeaDatabase} from "../persistance/database.service";
 import {AlertService} from "../alert/alert.service";
-import * as path from 'path';
+import {StorageService} from "../../storage/storage.service";
 
 const slash = require('slash');
 const {dialog} = require('electron').remote;
@@ -20,12 +19,11 @@ const {dialog} = require('electron').remote;
 })
 export class HomeComponent implements OnInit {
     private ideas: Array<Idea>;
-    private name :string;
 
     constructor(private route: ActivatedRoute,
-                private db: IdeaDatabase,
                 private alertService: AlertService,
-                private ref: ChangeDetectorRef) {
+                private ref: ChangeDetectorRef,
+                private  storage: StorageService) {
     }
 
     public ngOnInit(): void {
@@ -35,11 +33,9 @@ export class HomeComponent implements OnInit {
     }
 
     public deleteIdea(index: number, idea: Idea): void {
-        this.db.delete(idea).then((removed) => {
-            if (removed) {
-                this.ideas.splice(index, 1);
-                this.alertService.showWarning(`idea "${idea.title}" removed`);
-            }
+        this.storage.deleteDocument(idea._id).then(() => {
+            this.ideas.splice(index, 1);
+            this.alertService.showWarning(`idea "${idea.title}" removed`);
         });
     }
 
@@ -47,19 +43,23 @@ export class HomeComponent implements OnInit {
         dialog.showOpenDialog({
             properties: ['openFile'],
             filters: [
-                {name: 'Data file', extensions: ['db']}
+                {name: 'Game Idea Organization file', extensions: ['gio']}
             ]
         }, (filePaths) => {
             if (filePaths && filePaths.length == 1) {
-                this.name = path.basename(filePaths[0],".db");
-                this.db.loadDataBase(filePaths[0]);
-                this.db.loaded.then(() => {
-                    this.db.findAll().then((ideas) => {
+                this.storage.load(filePaths[0]).then(() => {
+                    this.storage.findAll().then((ideas) => {
                         this.ideas = ideas;
                         this.ref.detectChanges();
                     });
                 });
             }
         });
+    }
+
+    public saveFile():void{
+        this.storage.save().then(() => {
+            this.alertService.showSuccess(`${this.storage.getName()} saved`);
+        })
     }
 }

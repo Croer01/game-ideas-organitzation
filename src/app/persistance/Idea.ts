@@ -11,8 +11,8 @@ export class Idea {
     }
 
     public canLink(ideaToLink: Idea): Boolean {
-        var exist: Boolean = false;
-        var i: number = 0;
+        let exist: Boolean = false;
+        let i: number = 0;
         while (!exist && i < this.relatedIdeas.length) {
             if (ideaToLink._id === this.relatedIdeas[i]._id)
                 exist = true;

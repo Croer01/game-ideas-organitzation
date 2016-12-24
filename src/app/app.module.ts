@@ -11,13 +11,15 @@ import {NewIdeaComponent} from "./new-idea/new-idea.component";
 import {IdeasResolve} from "./routes/IdeasResolve";
 import {AlertComponent} from "./alert/alert.component";
 import {AlertService} from "./alert/alert.service";
+import {StorageModule} from "../storage/storage.module";
 
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
-        routing
+        routing,
+        StorageModule
     ],
     providers:[
         IdeaDatabase,
