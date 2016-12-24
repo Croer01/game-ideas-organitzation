@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import * as fs from "fs";
 import * as uid from 'uid-safe';
-import any = jasmine.any;
+import * as path from 'path';
 
 const ID_FIELD: string = "_id";
 
@@ -9,12 +9,19 @@ const ID_FIELD: string = "_id";
 export class StorageService {
     private storage: {[id: string]: any;};
     private filename: string;
+    private dirty: boolean;
+    private name: string;
 
     //TODO: crear Emitters per els events de desa, carregar, insertar, elminiar, etc.
 
-    //create
     public constructor() {
         this.storage = {};
+        this.dirty = false;
+    }
+
+    private setFilename(filename: string): void{
+        this.filename = filename;
+        this.name = path.basename(filename, ".gio");
     }
 
     //load
@@ -23,13 +30,14 @@ export class StorageService {
             if (!filename)
                 throw new Error("invalid filename set! Use Storage.save('path/to/filename') to save it");
 
-            this.filename = filename;
+        this.setFilename(filename);
 
             fs.readFile(filename, (err, data) => {
                 if (err) {
                     resolve();
                 } else {
                     this.storage = JSON.parse(data.toString());
+                    this.dirty = false;
                     resolve();
                 }
             });
@@ -37,19 +45,21 @@ export class StorageService {
     }
 
     //save
-    public save(filename?: string) {
-        if (!this.filename && !filename) {
-            throw new Error("Storage not have any filename set! Use Storage.save('path/to/filename') to save it");
-        }
+    public save(filename?: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (!this.filename && !filename) {
+                throw new Error("Storage not have any filename set! Use Storage.save('path/to/filename') to save it");
+            }
+            this.setFilename(filename || this.filename);
 
-        this.filename = filename || this.filename;
-
-        fs.writeFile(this.filename, JSON.stringify(this.storage), function (err) {
-            if (err)
-                throw err;
-
-            //the save has been success!!!
-
+            fs.writeFile(this.filename, JSON.stringify(this.storage), function (err) {
+                if (err)
+                    reject(err);
+                else {
+                    this.dirty = false;
+                    resolve();
+                }
+            });
         });
     }
 
@@ -65,6 +75,7 @@ export class StorageService {
                     newDocument[ID_FIELD] = id;
                     newDocument = Object.assign(newDocument, document);
                     this.storage[id] = newDocument;
+                    this.dirty = true;
                     resolve(Object.assign({}, newDocument));
                 })
             }
@@ -80,7 +91,7 @@ export class StorageService {
             else {
                 let id = document[ID_FIELD];
 
-                if(!this.storage[id]){
+                if (!this.storage[id]) {
                     reject(new Error(`document with ${ID_FIELD} not exist.`))
                 }
 
@@ -88,8 +99,51 @@ export class StorageService {
                 documentUpdated = Object.assign(documentUpdated, document);
 
                 this.storage[id] = documentUpdated;
+                this.dirty = true;
                 resolve(Object.assign({}, documentUpdated));
             }
         });
+    }
+
+    public findAll(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            let documents: Array<any> = [];
+            for (let key in this.storage) {
+                documents.push(this.storage[key]);
+            }
+
+            resolve(documents);
+        })
+    }
+
+
+    public findOne(id: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            let document = this.storage[id];
+            if (!document)
+                reject(new Error(`Document ${id} not exist in storage`));
+            else
+                resolve(document);
+        })
+    }
+
+    public deleteDocument(id: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (!this.storage[id]) {
+                reject(new Error(`Document ${id} not exist in storage`));
+            } else {
+                delete this.storage[id];
+                this.dirty = true;
+                resolve()
+            }
+        });
+    }
+
+    public isDirty(): boolean {
+        return this.dirty;
+    }
+
+    public getName(): string{
+        return this.name;
     }
 }
