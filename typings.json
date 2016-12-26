@@ -4,7 +4,5 @@
         "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
         "node": "registry:dt/node#6.0.0+20160807145350"
     },
-    "dependencies": {
-        "nedb": "registry:dt/nedb#0.0.0+20160726220304"
-    }
+    "dependencies": {}
 }
