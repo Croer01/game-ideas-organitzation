@@ -4,5 +4,7 @@
         "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
         "node": "registry:dt/node#6.0.0+20160807145350"
     },
-    "dependencies": {}
+    "dependencies": {
+        "lodash": "registry:dt/lodash#4.14.0+20161220120806"
+    }
 }
