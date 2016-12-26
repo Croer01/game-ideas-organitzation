@@ -2,8 +2,8 @@
  * Created by Adria on 21/08/2016.
  */
 import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
-import {IdeaDatabase} from "../persistance/database.service";
 import {Idea} from "../persistance/Idea";
+import {StorageService} from "../../storage/storage.service";
 const slash = require('slash');
 
 @Component({
@@ -25,11 +25,11 @@ export class AutoCompleteComponent implements OnInit {
     @Output()
     private onChange = new EventEmitter<any>(false);
 
-    constructor(private db: IdeaDatabase) {
+    constructor(private storage: StorageService) {
     }
 
     ngOnInit(): void {
-        this.db.loaded.then(() => this.db.findAll().then((options)=>this.options = options));
+        this.storage.findAll().then(options => this.options = options);
         this.isFocus = false;
         this.selectedIndex = 0;
     }
@@ -62,7 +62,7 @@ export class AutoCompleteComponent implements OnInit {
     }
 
     public searchOptions(): void {
-        this.db.findByTitle(this.inputModel).then((options)=>this.options = options);
+        this.storage.findByField(this.inputModel, "title").then(options => this.options = options);
         this.selectedIndex = -1;
         this.openOptions();
         this.onChange.emit();
