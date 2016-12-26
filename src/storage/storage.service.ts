@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import * as fs from "fs";
 import * as uid from 'uid-safe';
 import * as path from 'path';
+import * as _ from "lodash";
 
 const ID_FIELD: string = "_id";
 
@@ -19,7 +20,7 @@ export class StorageService {
         this.dirty = false;
     }
 
-    private setFilename(filename: string): void{
+    private setFilename(filename: string): void {
         this.filename = filename;
         this.name = path.basename(filename, ".gio");
     }
@@ -30,7 +31,7 @@ export class StorageService {
             if (!filename)
                 throw new Error("invalid filename set! Use Storage.save('path/to/filename') to save it");
 
-        this.setFilename(filename);
+            this.setFilename(filename);
 
             fs.readFile(filename, (err, data) => {
                 if (err) {
@@ -143,7 +144,26 @@ export class StorageService {
         return this.dirty;
     }
 
-    public getName(): string{
+    public getName(): string {
         return this.name;
+    }
+
+    public findByField(value: any, fieldName: string): Promise<Array<any>> {
+        return new Promise((resolve, reject) => {
+            let documents: Array<any> = [];
+            for (let key in this.storage) {
+                let document = this.storage[key];
+                if(!_.isString(document[fieldName])){
+                    reject(new Error(`field "${fieldName}" is not string value`));
+                    return;
+                }
+                let fieldValueNormalized = document[fieldName]? _.deburr(document[fieldName]).toLowerCase() : "";
+                if (fieldValueNormalized.indexOf(_.deburr(value).toLowerCase()) !== -1) {
+                    documents.push(Object.assign({}, document));
+                }
+            }
+
+            resolve(documents);
+        });
     }
 }
